@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>REAL DRIVE 3D — Open City</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loading"><div class="loader"></div><b>REAL DRIVE 3D</b><span>جاري تجهيز المدينة...</span></div>
+
+<div id="hud" class="hidden">
+  <div class="topbar">
+    <div class="brand">REAL<span>DRIVE</span> <small>3D</small></div>
+    <div class="stats">
+      <div><span>السرعة</span><b id="speed">0</b><i>KM/H</i></div>
+      <div><span>الغيار</span><b id="gear">N</b><i>GEAR</i></div>
+      <div><span>المهمة</span><b id="missionNo">1</b><i>/100</i></div>
+      <div><span>المكافأة</span><b id="reward">1,000</b><i>$</i></div>
+    </div>
+    <button id="soundBtn">🔊</button>
+    <button id="menuBtn">☰</button>
+  </div>
+  <div id="tach">
+    <div id="tachNeedle"></div>
+    <b id="rpmVal">0</b><i>RPM</i>
+  </div>
+  <div id="missionBox">
+    <b id="missionTitle">المهمة 1 — بداية الطريق</b>
+    <span id="missionText">قد السيارة إلى نقطة الوصول.</span>
+    <div class="progress"><i id="missionProgress"></i></div>
+  </div>
+  <div id="location">CITY CENTER</div>
+  <div id="hint">WASD / الأسهم للقيادة • C لتغيير الكاميرا • R لإعادة السيارة</div>
+</div>
+
+<div id="mobileControls" class="hidden">
+  <button data-key="w" class="up">▲</button>
+  <button data-key="a">◀</button>
+  <button data-key="s">▼</button>
+  <button data-key="d">▶</button>
+  <button id="mobileCam">كاميرا</button>
+  <button id="mobileBrake">فرامل</button>
+</div>
+
+<div id="mainMenu" class="panel hidden">
+  <div class="panelHead"><h1>REAL DRIVE 3D</h1><button class="close">×</button></div>
+  <p>عالم سيارات مفتوح — قيادة وتعديل ومهام.</p>
+  <div class="menuGrid">
+    <button id="garageOpen">🚘 المرآب والتعديل</button>
+    <button id="dealerOpen">🏁 معرض السيارات</button>
+    <button id="missionsOpen">🎯 المهام 1–100</button>
+    <button id="cityInfoOpen">🌆 خريطة المدينة</button>
+  </div>
+  <div class="controlsCard"><b>التحكم</b><br>W/S أو ↑/↓ تسارع وفرامل • A/D أو ←/→ توجيه • Space فرامل قوية • C كاميرا • R إعادة.</div>
+</div>
+
+<div id="garage" class="panel hidden">
+  <div class="panelHead"><h2>🔧 المرآب والتعديل</h2><button class="close">×</button></div>
+  <div class="garageLayout">
+    <div class="carPreview" id="carPreview"></div>
+    <div class="custom">
+      <label>السيارة <select id="carSelect"></select></label>
+      <label>اللون <input id="paint" type="color" value="#e11d48"></label>
+      <label>الجنوط <input id="rim" type="color" value="#d4d4d8"></label>
+      <label>ارتفاع التعليق <input id="ride" type="range" min="-1" max="1" step=".05" value="0"></label>
+      <label>قوة المحرك <input id="power" type="range" min="0.75" max="1.35" step=".01" value="1"></label>
+      <label>تماسك الإطارات <input id="grip" type="range" min=".75" max="1.35" step=".01" value="1"></label>
+      <label>ناقل الحركة
+        <select id="gear"><option>أوتوماتيك</option><option>رياضي</option><option>يدوي</option></select>
+      </label>
+      <div class="chips"><button data-up="spoiler">جناح رياضي</button><button data-up="lights">إضاءة LED</button><button data-up="body">Body Kit</button><button data-up="exhaust">عادم رياضي</button></div>
+      <button id="applyCustom" class="primary">حفظ التعديلات</button>
+    </div>
+  </div>
+</div>
+
+<div id="dealer" class="panel hidden">
+  <div class="panelHead"><h2>🏁 معرض السيارات</h2><button class="close">×</button></div>
+  <p>الموديلات أدناه هي أسماء سيارات حقيقية. النموذج الظاهر داخل هذه النسخة Prototype هندسي برمجي وليس نسخة 3D رسمية.</p>
+  <div id="carCards" class="carCards"></div>
+</div>
+
+<div id="missions" class="panel hidden">
+  <div class="panelHead"><h2>🎯 سلسلة المهام</h2><button class="close">×</button></div>
+  <div id="missionList" class="missionList"></div>
+</div>
+
+<div id="cityInfo" class="panel hidden">
+  <div class="panelHead"><h2>🌆 مدينة REAL DRIVE</h2><button class="close">×</button></div>
+  <div class="cityFeatures">
+    <div>🏙️ <b>وسط المدينة</b><span>ناطحات سحاب، تقاطعات، حركة مرور.</span></div>
+    <div>🛠️ <b>ورشة التعديل</b><span>محرك، تعليق، إطارات، لون، تجهيزات.</span></div>
+    <div>🏪 <b>معرض السيارات</b><span>اختيار وتبديل السيارات.</span></div>
+    <div>🛣️ <b>طريق السرعة</b><span>مسار طويل لاختبار السرعة القصوى.</span></div>
+    <div>🌉 <b>الجسر والطريق الساحلي</b><span>مسارات طويلة للقيادة الحرة.</span></div>
+    <div>🏁 <b>منطقة السباق</b><span>نقطة انطلاق للمهام والتحديات.</span></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+</script>
+<script type="module" src="game.js"></script>
+</body>
+</html>
